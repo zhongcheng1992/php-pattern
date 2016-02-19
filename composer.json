@@ -1,0 +1,12 @@
+{
+    "require": {
+        "slim/slim": "^3.1",
+        "raveren/kint": "^1.0",
+        "illuminate/database": "^5.2"
+    },
+    "autoload": {
+        "classmap": [
+            "service"
+        ]
+    }
+}
