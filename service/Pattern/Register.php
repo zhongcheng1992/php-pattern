@@ -1,6 +1,6 @@
 <?php
 /**
- * 注册树
+ * 注册树模式 - 注册树类
  */
 namespace Service\Pattern;
 

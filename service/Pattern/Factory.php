@@ -1,12 +1,17 @@
 <?php
 /**
+ * 工厂模式
  * 工厂类
 */
 namespace Service\Pattern;
 
+use Service\Cache\File;
+use Service\Cache\Redis;
 use Service\Database\Mysql;
 use Service\Database\Mysqli;
 use Service\Database\Pdo;
+use Service\Strategy\bookStrategy;
+use Service\Strategy\movieStrategy;
 
 class Factory
 {
@@ -25,8 +30,55 @@ class Factory
         }
 
         $obj->connect($username, $passwd, $dbname, $host , $port);
-        Register::set($driver, $obj);
+        self::register($driver, $obj);
         return $obj;
     }
+
+    public static function getResource($type)
+    {
+        switch($type) {
+            case 'book':
+                $obj = new bookStrategy();
+                break;
+
+            case 'movie':
+            default:
+                $obj = new movieStrategy();
+                break;
+        }
+
+        self::register($type, $obj);
+        return $obj;
+    }
+
+    public static function setCache($type = 'redis')
+    {
+        $config = self::getenv($type);
+
+        switch($type) {
+            case 'redis':
+                $cache = new Redis();
+                $cache::init($config['host'], $config['port']);
+                break;
+            case 'file':
+            default:
+                $cache = new File();
+                break;
+        }
+        self::register($type, $cache);
+        return $cache;
+    }
+
+    private static function register($type, $obj)
+    {
+        Register::set($type, $obj);
+    }
+
+    private static function getenv($type)
+    {
+        $config = require BASE_PATH . '/config/config.php';
+        return $config[$type];
+    }
+
 
 }
