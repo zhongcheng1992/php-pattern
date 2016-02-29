@@ -1,7 +1,9 @@
 <?php
 namespace Service\Database;
 
-class Mysql
+use Pattern\Database\IDatabase;
+
+class Mysql implements IDatabase
 {
     /**
      * 保证实例单一性
@@ -33,23 +35,40 @@ class Mysql
      * @param string $dbname 数据库名
      * @param string $dbhost 数据库地址
      * @param string $encoding 数据库编码
+     * @return mixed|void
      */
     public function connect($dbuser, $dbpwd, $dbname, $dbhost = 'localhost', $encoding = 'utf-8')
     {
-        $this->handle = @mysql_connect($dbhost, $dbuser, $dbpwd) or die('无法连接数据库:' . mysql_error());
-        @mysql_set_charset($encoding);
-        @mysql_select_db($dbname);
+        $this->handle = mysql_connect($dbhost, $dbuser, $dbpwd) or die('无法连接数据库:' . mysql_error());
+        mysql_set_charset($encoding);
+        mysql_select_db($dbname);
     }
 
+    /**
+     * @param string $sql
+     * @return resource
+     */
     public function query($sql)
     {
-        $result = @mysql_query($sql);
-        return @mysql_fetch_assoc($result);
+        $result = mysql_query($sql);
+        return $result;
     }
 
-    public function disconnect()
+    /**
+     * @param array $arraySql 通过事务处理多条SQL语句
+     * @return mixed 查询结果
+     */
+    public function execTransaction(array $arraySql)
     {
-        @mysql_close($this->link);
+        // TODO: Implement execTransaction() method.
     }
 
+    /**
+     * 关闭数据库连接以释放资源
+     * @return mixed
+     */
+    public function close()
+    {
+        mysql_close($this->link);
+    }
 }

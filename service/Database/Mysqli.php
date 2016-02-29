@@ -9,7 +9,9 @@
  */
 namespace Service\Database;
 
-class Mysqli
+use Pattern\Database\IDatabase;
+
+class Mysqli implements IDatabase
 {
     protected static $instance = null;
     protected $dbh;
@@ -131,10 +133,18 @@ class Mysqli
         printf("查询语句: %s", $this->querySql);
     }
 
+    /**
+     * @param array $arraySql 通过事务处理多条SQL语句
+     * @return mixed 查询结果
+     */
+    public function execTransaction(array $arraySql)
+    {
+        // TODO: Implement execTransaction() method.
+    }
+
     public function close()
     {
         return mysqli_close($this->dbh);
     }
-
 
 }

@@ -12,6 +12,7 @@ namespace Service\Database;
 use Exception;
 use PDOException;
 use Service\Traits\Singleton;
+use Pattern\Database\IDatabase;
 
 class Pdo implements IDatabase
 {
@@ -22,9 +23,14 @@ class Pdo implements IDatabase
 
     use Singleton;
 
-    private function printError($errMessage)
+    public function connect($username, $passwd, $dbname, $host, $port)
     {
-        throw new Exception('数据库错误:' . $errMessage);
+        $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port;
+        try {
+            $this->dbh = new \PDO($dsn, 'root', 'fyibmsd');
+        } catch(PDOException $e) {
+            $this->printError($e->getMessage());
+        }
     }
 
     public function query($sql)
@@ -37,7 +43,6 @@ class Pdo implements IDatabase
      *
      * @param String $dbName 库名
      * @param String $tableName 表名
-     * @param Boolean $debug
      * @return String
      */
     public function getTableEngine($dbName, $tableName)
@@ -99,13 +104,9 @@ class Pdo implements IDatabase
         unset($this->dbh);
     }
 
-    public function connect($username, $passwd, $dbname, $host, $port)
+    private function printError($errMessage)
     {
-        $dsn = 'mysql:host=' . $host . ';dbname=' . $dbname . ';port=' . $port;
-        try {
-            $this->dbh = new \PDO($dsn, 'root', 'fyibmsd');
-        } catch(PDOException $e) {
-            $this->printError($e->getMessage());
-        }
+        throw new Exception('数据库错误:' . $errMessage);
     }
+
 }
