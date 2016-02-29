@@ -1,8 +1,9 @@
 {
     "require": {
-        "slim/slim": "^3.1",
-        "raveren/kint": "^1.0",
-        "illuminate/database": "^5.2"
+        "noahbuscher/macaw": "dev-master"
+    },
+    "require-dev": {
+        "raveren/kint": "^1.0"
     },
     "autoload": {
         "classmap": [

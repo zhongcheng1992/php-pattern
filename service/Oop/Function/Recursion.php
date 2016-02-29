@@ -28,7 +28,6 @@ class Tree
 
     public function setPrefix()
     {
-
         $this->prefix = '' . self::PRE;
     }
 
