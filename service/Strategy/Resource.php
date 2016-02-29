@@ -5,10 +5,19 @@
 namespace Service\Strategy;
 
 use Service\Pattern\Factory;
+use Service\Pattern\IStrategy;
+
 
 class Resource
 {
     const API = 'https://api.douban.com/v2/%s/search?q=%s';
+
+    public $strategy;
+
+    public function setStrategy(IStrategy $strategy)
+    {
+        $this->strategy = $strategy;
+    }
 
     public static function get_url_contents($url)
     {

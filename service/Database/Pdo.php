@@ -12,7 +12,7 @@ namespace Service\Database;
 use Exception;
 use PDOException;
 use Service\Traits\Singleton;
-use Pattern\Database\IDatabase;
+use Service\Pattern\IDatabase;
 
 class Pdo implements IDatabase
 {
@@ -35,7 +35,13 @@ class Pdo implements IDatabase
 
     public function query($sql)
     {
-        return $this->dbh->query($sql);
+        $record = $this->dbh->query($sql);
+        $this->getPDOError();
+
+        $record->setFetchMode(\PDO::FETCH_ASSOC);
+        $result = $record->fetchAll();
+
+        return $result;
     }
 
     /**
@@ -99,14 +105,75 @@ class Pdo implements IDatabase
         }
     }
 
+    public function __call($name, $args)
+    {
+        $func  = ['table', 'where', 'order', 'limit', 'data', 'field', 'join', 'group', 'having'];
+
+        !empty($args) ? : die('参数错误');
+
+        if(in_array($name, $func)) {
+            switch($name) {
+                case 'field':
+                    $this->queryList['field'] = implode($args[0], ',');
+                    break;
+                case 'table':
+                    $this->queryList['table'] = $args[0];
+                    break;
+                case 'data':
+                    $field = $value = '';
+                    foreach ($args[0] as $key => $val) {
+                        $field .= '`' . $key . '`,';
+                        $value .= '\'' . $val . '\',';
+                    }
+                    $this->queryList['data'] = ' (' . rtrim($field, ',') . ')' . ' values ' . '(' . rtrim($value, ',') . ')';
+                    break;
+                case 'where':
+                    if(is_array($args[0])) {
+                        $condition = '';
+                        foreach ($args[0] as $key => $val) {
+                            $condition .= '`' . $key . '` = \'' . $val . '\' and ';
+                        }
+                    } else {
+                        $condition = $args[0] == null ? '' : ' where ' . $args[0];
+                    }
+                    $this->queryList['where'] = is_string($condition) ? $condition : ' where ' . rtrim($condition, ' and ');
+                    break;
+                case 'limit':
+                    if(!$args[1]) {
+                        $args[1] = $args[0];
+                        $args[0] = 0;
+                    }
+                    $this->queryList['limit'] = ' limit ' . $args[0] . ',' . $args[1];
+            }
+            return $this;
+        }
+
+        exit('调用函数出错!');
+    }
+
+    public function save()
+    {
+        /**
+         * @var string $table
+         * @var string $data
+         */
+        extract($this->queryList);
+        $sql = 'insert into ' . $table . $data;
+        return $this->query($sql);
+    }
+
+
+
     public function close()
     {
         unset($this->dbh);
     }
 
-    private function printError($errMessage)
+    private function getPDOError()
     {
-        throw new Exception('数据库错误:' . $errMessage);
+        if ($this->dbh->errorCode() != '00000') {
+            $errorInfo = $this->dbh->errorInfo();
+            throw new Exception('数据库错误: ' . $errorInfo[2]);
+        }
     }
-
 }

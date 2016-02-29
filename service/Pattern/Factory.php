@@ -34,6 +34,11 @@ class Factory
         return $obj;
     }
 
+    /**
+     * 工厂模式 实例化资源搜索类
+     * @param $type string 要搜索的资源类型
+     * @return bookStrategy|movieStrategy
+     */
     public static function getResource($type)
     {
         switch($type) {

@@ -1,10 +1,20 @@
 <?php
-error_reporting(E_ERROR);
+error_reporting(E_ALL);
 
 use NoahBuscher\Macaw\Macaw;
+use Whoops\Run as Whoops;
+use Whoops\Handler\PrettyPageHandler;
 use Service\Pattern\Factory;
+use Service\Database\UsersModel as Users;
 
 require '../vendor/autoload.php';
+
+define('BASE_PATH', realpath('..'));
+
+// whoops 错误提醒
+$whoops = new Whoops;
+$whoops->pushHandler(new PrettyPageHandler);
+$whoops->register();
 
 Macaw::get('/', function() {
     echo 'phplib';
@@ -32,6 +42,22 @@ Macaw::get('/db/mysqli', function() {
 Macaw::get('/db/pdo',function() {
     $pdo = Factory::createDb('root', 'fyibmsd', 'test', 'localhost', 'pdo');
     var_dump($pdo);
+});
+
+Macaw::get('/db/orm', function() {
+    /** 增
+    $users = new Users();
+    $users->name = 'admin';
+    $users->password = 'fyibmsd';
+    $users->email = 'aaa@fyibmsd.com';
+    $users->updated_at = time();
+    $res = $users->save();
+    */
+
+    /** 查
+    $users = Users::findById(1);
+    var_dump($users);
+     */
 });
 
 Macaw::dispatch();

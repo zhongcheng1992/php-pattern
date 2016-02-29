@@ -1,9 +1,8 @@
 {
     "require": {
-        "noahbuscher/macaw": "dev-master"
-    },
-    "require-dev": {
-        "raveren/kint": "^1.0"
+        "noahbuscher/macaw": "dev-master",
+        "raveren/kint": "^1.0",
+        "filp/whoops": "*"
     },
     "autoload": {
         "classmap": [

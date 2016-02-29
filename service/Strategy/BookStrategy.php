@@ -1,4 +1,7 @@
 <?php
+/**
+ * 针对于图书搜索的策略
+*/
 namespace Service\Strategy;
 
 use Service\Pattern\IStrategy;

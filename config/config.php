@@ -4,7 +4,7 @@ return [
         'host'      => '127.0.0.1',
         'username'  => 'root',
         'password'  => 'fyibmsd',
-        'database'  => 'test',
+        'dbname'  => 'test',
         'charset'   => 'utf8'
     ],
 
