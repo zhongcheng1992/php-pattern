@@ -9,7 +9,7 @@
  */
 namespace Service\Database;
 
-use Pattern\Database\IDatabase;
+use Service\Pattern\IDatabase;
 
 class Mysqli implements IDatabase
 {

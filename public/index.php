@@ -2,6 +2,9 @@
 error_reporting(E_ALL);
 
 use NoahBuscher\Macaw\Macaw;
+use Service\Prototype\Canvas;
+use Service\Event\Event;
+use Service\Event\ObserverDemo;
 use Whoops\Run as Whoops;
 use Whoops\Handler\PrettyPageHandler;
 use Service\Pattern\Factory;
@@ -17,7 +20,9 @@ $whoops->pushHandler(new PrettyPageHandler);
 $whoops->register();
 
 Macaw::get('/', function() {
-    echo 'phplib';
+    foreach(Macaw::$routes as $route) {
+        echo "<a href='{$route}'>{$route}</a><br/>";
+    }
 });
 
 Macaw::get('/db/mysql', function() {
@@ -58,6 +63,37 @@ Macaw::get('/db/orm', function() {
     $users = Users::findById(1);
     var_dump($users);
      */
+});
+
+Macaw::get('/event', function() {
+    $event = new Event();
+
+    $event->addObserver(new ObserverDemo('Observer No.1'));
+
+    $event->addObserver(new ObserverDemo('Observer No.2'));
+
+    $event->trigger();
+});
+
+Macaw::get('/prototype', function() {
+    $prototype = new Canvas();
+    $prototype->init();
+
+    $canvasA = clone $prototype;
+    $canvasA->rect(3, 6, 4, 12);
+    $canvasA->draw();
+
+    echo '<hr/>';
+    $canvasB = clone $prototype;
+    $canvasB->rect(1, 3, 2, 6);
+    $canvasB->draw();
+});
+
+Macaw::get('/decorator', function() {
+    $canvas = new Canvas();
+    $canvas->init();
+    $canvas->rect(3, 6, 4, 12);
+    $canvas->draw();
 });
 
 Macaw::dispatch();
