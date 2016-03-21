@@ -2,6 +2,7 @@
 error_reporting(E_ALL);
 
 use NoahBuscher\Macaw\Macaw;
+use Service\Config\Config;
 use Service\Prototype\Canvas;
 use Service\Event\Event;
 use Service\Event\ObserverDemo;
@@ -92,8 +93,28 @@ Macaw::get('/prototype', function() {
 Macaw::get('/decorator', function() {
     $canvas = new Canvas();
     $canvas->init();
+    // 装饰器模式
+    $canvas->addDecorator(new ColorDecorator('green'));
+    $canvas->addDecorator(new SizeDecorator(30));
     $canvas->rect(3, 6, 4, 12);
     $canvas->draw();
+});
+
+Macaw::get('/config', function() {
+    $config = new Config(BASE_PATH . '/config/config.php');
+    var_dump($config['database']);
+
+    unset($config['database']);
+
+    var_dump(isset($config['database']));
+    var_dump($config);
+
+});
+
+Macaw::get('/yaml', function() {
+    $config = new Service\Config\Yaml(BASE_PATH . '/config/config.yaml');
+    var_dump($config['database']);
+
 });
 
 Macaw::dispatch();

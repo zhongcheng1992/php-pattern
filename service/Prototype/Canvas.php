@@ -43,6 +43,7 @@ class Canvas
 
     public function afterDraw()
     {
+        // 反转
         $decorators = array_reverse($this->decorators);
         foreach($decorators as $decorator)
         {
