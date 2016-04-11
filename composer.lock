@@ -4,21 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "ef7de3ae63667e08d1d68ee74f93beb6",
-    "content-hash": "270e1c1be4d77f9f81dbb3053e791eef",
+    "hash": "ddfb13895c3636fc5698a9b223eb2348",
+    "content-hash": "1e8bd2fc54a6920eb228d15c3a0d258d",
     "packages": [
         {
             "name": "filp/whoops",
-            "version": "2.0.0",
+            "version": "2.1.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/filp/whoops.git",
-                "reference": "a327942c50cbd62b25c6fbe08f173031ce25fbff"
+                "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/filp/whoops/zipball/a327942c50cbd62b25c6fbe08f173031ce25fbff",
-                "reference": "a327942c50cbd62b25c6fbe08f173031ce25fbff",
+                "url": "https://packagist.phpcomposer.com/files/filp/whoops/d13505b240a6f580bc75ba591da30299d6cb0eec.zip",
+                "reference": "d13505b240a6f580bc75ba591da30299d6cb0eec",
                 "shasum": ""
             },
             "require": {
@@ -26,7 +26,8 @@
             },
             "require-dev": {
                 "mockery/mockery": "0.9.*",
-                "phpunit/phpunit": "^4.8 || ^5.0"
+                "phpunit/phpunit": "^4.8 || ^5.0",
+                "symfony/var-dumper": "~3.0"
             },
             "suggest": {
                 "symfony/var-dumper": "Pretty print complex values better with var-dumper available",
@@ -64,7 +65,58 @@
                 "whoops",
                 "zf2"
             ],
-            "time": "2016-01-06 17:51:21"
+            "time": "2016-04-07 06:16:25"
+        },
+        {
+            "name": "michelf/php-markdown",
+            "version": "1.6.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/michelf/php-markdown.git",
+                "reference": "156e56ee036505ec637d761ee62dc425d807183c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://packagist.phpcomposer.com/files/michelf/php-markdown/156e56ee036505ec637d761ee62dc425d807183c.zip",
+                "reference": "156e56ee036505ec637d761ee62dc425d807183c",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-lib": "1.4.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Michelf": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "Michel Fortin",
+                    "email": "michel.fortin@michelf.ca",
+                    "homepage": "https://michelf.ca/",
+                    "role": "Developer"
+                },
+                {
+                    "name": "John Gruber",
+                    "homepage": "https://daringfireball.net/"
+                }
+            ],
+            "description": "PHP Markdown",
+            "homepage": "https://michelf.ca/projects/php-markdown/",
+            "keywords": [
+                "markdown"
+            ],
+            "time": "2015-12-24 01:37:31"
         },
         {
             "name": "noahbuscher/macaw",
@@ -72,12 +124,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/noahbuscher/Macaw.git",
-                "reference": "9c0095b26474c1f333770a6024ca0088e103538b"
+                "reference": "57426d1a5d0993dc094ceafcf54be0b86c795f61"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/noahbuscher/Macaw/zipball/9c0095b26474c1f333770a6024ca0088e103538b",
-                "reference": "9c0095b26474c1f333770a6024ca0088e103538b",
+                "url": "https://packagist.phpcomposer.com/files/noahbuscher/Macaw/57426d1a5d0993dc094ceafcf54be0b86c795f61.zip",
+                "reference": "57426d1a5d0993dc094ceafcf54be0b86c795f61",
                 "shasum": ""
             },
             "require": {
@@ -94,7 +146,7 @@
                 "MIT"
             ],
             "description": "Simple PHP router class.",
-            "time": "2016-02-08 18:45:58"
+            "time": "2016-04-05 01:58:47"
         },
         {
             "name": "raveren/kint",

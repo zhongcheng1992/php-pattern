@@ -1,15 +1,14 @@
 <?php
 error_reporting(E_ALL);
 
-use NoahBuscher\Macaw\Macaw;
-use Service\Config\Config;
-use Service\Prototype\Canvas;
 use Service\Event\Event;
+use Service\Config\Config;
+use Service\Framework\Route;
+use Service\Prototype\Canvas;
 use Service\Event\ObserverDemo;
 use Whoops\Run as Whoops;
 use Whoops\Handler\PrettyPageHandler;
 use Service\Pattern\Factory;
-use Service\Database\UsersModel as Users;
 
 require '../vendor/autoload.php';
 
@@ -20,13 +19,26 @@ $whoops = new Whoops;
 $whoops->pushHandler(new PrettyPageHandler);
 $whoops->register();
 
-Macaw::get('/', function() {
-    foreach(Macaw::$routes as $route) {
-        echo "<a href='{$route}'>{$route}</a><br/>";
+/**
+ * 首页
+*/
+Route::get('/', $msg = '目录',  function() {
+    foreach(Route::$routes as $route) {
+        echo <<<EOL
+<a href='{$route}' style='font-size: 18px;margin: 5px;display: block;text-decoration: none'>{$route}</a><br/>
+EOL;
     }
 });
 
-Macaw::get('/db/mysql', function() {
+/**
+ * 文档
+ */
+Route::get('/docs', $msg = "文档", "DocsController@index");
+
+/**
+ * Mysql类
+*/
+Route::get('/db/mysql', $msg, function() {
     $mysql = Factory::createDb('root', 'fyibmsd', 'test', 'localhost', 'mysql');
     $res = $mysql->query('select version()');
     var_dump($mysql);
@@ -34,7 +46,7 @@ Macaw::get('/db/mysql', function() {
     $mysql->close();
 });
 
-Macaw::get('/db/mysqli', function() {
+Route::get('/db/mysqli', $msg, function() {
     $mysqli = Factory::createDb('root', 'fyibmsd', 'test', 'localhost', 'mysqli');
     // 增
     $result = $mysqli->table('songs')->data(['name' => 'goodbye', 'singer' => 'beatles'])->save();
@@ -45,12 +57,12 @@ Macaw::get('/db/mysqli', function() {
 
 });
 
-Macaw::get('/db/pdo',function() {
+Route::get('/db/pdo',$msg, function() {
     $pdo = Factory::createDb('root', 'fyibmsd', 'test', 'localhost', 'pdo');
     var_dump($pdo);
 });
 
-Macaw::get('/db/orm', function() {
+Route::get('/db/orm', $msg, function() {
     /** 增
     $users = new Users();
     $users->name = 'admin';
@@ -66,7 +78,7 @@ Macaw::get('/db/orm', function() {
      */
 });
 
-Macaw::get('/event', function() {
+Route::get('/event', $msg, function() {
     $event = new Event();
 
     $event->addObserver(new ObserverDemo('Observer No.1'));
@@ -76,7 +88,7 @@ Macaw::get('/event', function() {
     $event->trigger();
 });
 
-Macaw::get('/prototype', function() {
+Route::get('/prototype', $msg, function() {
     $prototype = new Canvas();
     $prototype->init();
 
@@ -90,7 +102,7 @@ Macaw::get('/prototype', function() {
     $canvasB->draw();
 });
 
-Macaw::get('/decorator', function() {
+Route::get('/decorator', $msg, function() {
     $canvas = new Canvas();
     $canvas->init();
     // 装饰器模式
@@ -100,7 +112,7 @@ Macaw::get('/decorator', function() {
     $canvas->draw();
 });
 
-Macaw::get('/config', function() {
+Route::get('/config', $msg, function() {
     $config = new Config(BASE_PATH . '/config/config.php');
     var_dump($config['database']);
 
@@ -111,10 +123,10 @@ Macaw::get('/config', function() {
 
 });
 
-Macaw::get('/yaml', function() {
+Route::get('/yaml', $msg = 'yaml', function() {
     $config = new Service\Config\Yaml(BASE_PATH . '/config/config.yaml');
     var_dump($config['database']);
 
 });
 
-Macaw::dispatch();
+Route::dispatch();

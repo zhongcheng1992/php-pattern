@@ -1,7 +1,7 @@
 <?php
 /**
- * 工厂模式
- * 工厂类
+ * 工厂方法模式
+ * @doc docs/factory.md
 */
 namespace Service\Pattern;
 

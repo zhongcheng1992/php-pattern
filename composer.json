@@ -1,12 +1,14 @@
 {
-    "require": {
-        "noahbuscher/macaw": "dev-master",
-        "raveren/kint": "^1.0",
-        "filp/whoops": "*"
-    },
-    "autoload": {
-        "classmap": [
-            "service"
-        ]
+  "require": {
+    "noahbuscher/macaw": "dev-master",
+    "raveren/kint": "^1.0",
+    "filp/whoops": "*",
+    "michelf/php-markdown": "^1.6"
+  },
+  "autoload": {
+    "psr-4": {
+      "Service\\": "service/",
+      "Mvc\\":     "mvc/"
     }
+  }
 }
